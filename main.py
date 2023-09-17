@@ -70,7 +70,7 @@ def getStocks():
     for i in range(1, 6):
 
         while True:
-            # it's not a number like in the video tickers are value with letters mostly.
+            # it's not a number like in the video tickers are a value with letters mostly.
             print("Enter stock ticker value " + str(i))
             ticker = input("> ")
             try:
