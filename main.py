@@ -20,7 +20,7 @@ from pathlib import Path
 def getClosing(ticker):
     # Get the closing price for the last 10 trading days
     stock = yf.Ticker(ticker)
-    #get historical market data
+    # get historical market data
     hist = stock.history(period="10d")
 
     closingList = []
@@ -30,16 +30,8 @@ def getClosing(ticker):
 
     return closingList
 
+def printGraph(stock):
 
-# Create our charts folder
-try:
-    Path("charts").mkdir()
-except FileExistsError:
-    pass
-
-stocks = ["MSFT", "AAPL", "GME", "SONY", "META"]
-
-for stock in stocks:
     stockClosing = np.array(getClosing(stock))
 
     days = list(range(1, len(stockClosing) + 1))
@@ -54,13 +46,12 @@ for stock in stocks:
     high_price = prices[-1]
 
     # Set our X axis min and max
-    #form[xmin, xmax, ymin, ymax]
+    # form[xmin, xmax, ymin, ymax]
     plt.axis([1, 10, low_price, high_price])
-    #plt.axis([1, 10, low_price-2, high_price+2])
-
+    # plt.axis([1, 10, low_price-2, high_price+2])
 
     # Set our labels for the graph
-    plt. xlabel("Days")
+    plt.xlabel("Days")
     plt.ylabel("Closing Price")
     plt.title("Closing Price for " + stock)
 
@@ -70,6 +61,41 @@ for stock in stocks:
 
     # Finally show the graph
     plt.show()
+
+def getStocks():
+
+    stocks = []
+
+    print("Please enter 5 stocks to graph:")
+    for i in range(1, 6):
+
+        while True:
+            # it's not a number like in the video tickers are value with letters mostly.
+            print("Enter stock ticker value " + str(i))
+            ticker = input("> ")
+            try:
+                stock = yf.Ticker(ticker)
+                stock.info
+                stocks.append(ticker)
+                break
+            except:
+                print("That is not a valid stock. Please enter another.")
+
+    return stocks
+
+
+# Start of program
+# Create our charts folder
+try:
+    Path("charts").mkdir()
+except FileExistsError:
+    pass
+
+for stock in getStocks():
+    getClosing(stock)
+    printGraph(stock)
+
+
 
 
 # (10/10 points) Store this information in a list that you will convert to a ndarray in NumPy.
