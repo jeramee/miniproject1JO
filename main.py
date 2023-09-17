@@ -5,7 +5,7 @@
 import yfinance as yf
 import numpy as np
 import matplotlib.pyplot as plt
-
+from pathlib import Path
 
 # (5/5 points) Initial comments with your name, class and project at the top of your .py file.
 # (5/5 points) Proper import of packages used.
@@ -31,6 +31,11 @@ def getClosing(ticker):
     return closingList
 
 
+# Create our charts folder
+try:
+    Path("charts").mkdir()
+except FileExistsError:
+    pass
 
 stocks = ["MSFT", "AAPL", "GME", "SONY", "META"]
 
@@ -59,9 +64,12 @@ for stock in stocks:
     plt.ylabel("Closing Price")
     plt.title("Closing Price for " + stock)
 
+    # Saves Plot
+    savefile = "charts/" + stock + ".png"
+    plt.savefig(savefile)
+
     # Finally show the graph
     plt.show()
-
 
 
 # (10/10 points) Store this information in a list that you will convert to a ndarray in NumPy.
